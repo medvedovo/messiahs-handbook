@@ -4,7 +4,6 @@ import 'quotes.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -12,15 +11,13 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: new MessiahsHandbookQuote(title: 'Ричард Бах'),
+      home: new MessiahsHandbookQuote(),
     );
   }
 }
 
 class MessiahsHandbookQuote extends StatefulWidget {
-  MessiahsHandbookQuote({Key key, this.title}) : super(key: key);
-
-  final String title;
+  MessiahsHandbookQuote({Key key}) : super(key: key);
 
   @override
   _MessiahsHandbookQuoteState createState() =>
@@ -28,20 +25,28 @@ class MessiahsHandbookQuote extends StatefulWidget {
 }
 
 class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
-  String _quote = QuotesRepository().getRandomQuote();
+  final repository = new QuotesRepository();
+  String _quote = "";
+
+  _MessiahsHandbookQuoteState() {
+    setState(() {
+      QuotesRepository().getRandomQuote().then((quote) {
+        _quote = quote;
+      });
+    });
+  }
 
   void _updateQuote() {
     setState(() {
-      _quote = QuotesRepository().getRandomQuote();
+      repository.getRandomQuote().then((quote) {
+        _quote = quote;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      // appBar: new AppBar(
-      //   title: new Text(widget.title),
-      // ),
       body: new Center(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,10 +61,6 @@ class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
                 ),
               ),
             ),
-            // new Text(
-            //   '$_counter',
-            //   style: Theme.of(context).textTheme.display1,
-            // ),
           ],
         ),
       ),
