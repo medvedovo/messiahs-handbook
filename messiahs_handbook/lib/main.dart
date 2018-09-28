@@ -7,6 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Карманный справочник Мессии',
       theme: new ThemeData(
         primarySwatch: Colors.grey,
@@ -28,9 +29,11 @@ class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
   final repository = new QuotesRepository();
   String _quote = "";
 
-  _MessiahsHandbookQuoteState() {
-    setState(() {
-      QuotesRepository().getRandomQuote().then((quote) {
+  @override
+  initState() {
+    super.initState();
+    repository.getRandomQuote().then((quote) {
+      setState(() {
         _quote = quote;
       });
     });
