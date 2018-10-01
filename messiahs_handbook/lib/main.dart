@@ -27,6 +27,7 @@ class MessiahsHandbookQuote extends StatefulWidget {
 
 class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
   final repository = new QuotesRepository();
+  bool isLoading = true;
   String _quote = "";
 
   @override
@@ -34,6 +35,7 @@ class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
     super.initState();
     repository.getRandomQuote().then((quote) {
       setState(() {
+        isLoading = false;
         _quote = quote;
       });
     });
@@ -54,16 +56,18 @@ class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Padding(
-              padding: new EdgeInsets.all(16.0),
-              child: new Text(
-                '$_quote',
-                style: new TextStyle(
-                  color: Colors.black87,
-                  fontSize: 20.0,
-                ),
-              ),
-            ),
+            isLoading
+                ? new CircularProgressIndicator()
+                : new Padding(
+                    padding: new EdgeInsets.all(16.0),
+                    child: new Text(
+                      '$_quote',
+                      style: new TextStyle(
+                        color: Colors.black87,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
