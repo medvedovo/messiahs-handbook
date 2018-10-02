@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quotes.dart';
+import 'package:share/share.dart';
 
 void main() => runApp(new MyApp());
 
@@ -60,11 +61,16 @@ class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
                 ? new CircularProgressIndicator()
                 : new Padding(
                     padding: new EdgeInsets.all(16.0),
-                    child: new Text(
-                      '$_quote',
-                      style: new TextStyle(
-                        color: Colors.black87,
-                        fontSize: 20.0,
+                    child: new GestureDetector(
+                      onLongPress: () {
+                        Share.share(_quote);
+                      },
+                      child: new Text(
+                        '$_quote',
+                        style: new TextStyle(
+                          color: Colors.black87,
+                          fontSize: 20.0,
+                        ),
                       ),
                     ),
                   ),
