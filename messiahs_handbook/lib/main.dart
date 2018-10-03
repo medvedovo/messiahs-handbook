@@ -28,25 +28,29 @@ class MessiahsHandbookQuote extends StatefulWidget {
 
 class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
   final repository = new QuotesRepository();
-  bool isLoading = true;
+  bool isLoading = false;
   String _quote = "";
 
   @override
   initState() {
     super.initState();
-    repository.getRandomQuote().then((quote) {
-      setState(() {
-        isLoading = false;
-        _quote = quote;
-      });
+    setState(() {
+      _quote = repository.getRandomLocalQuote();
     });
+    // repository.getRandomQuote().then((quote) {
+    //   setState(() {
+    //     isLoading = false;
+    //     _quote = quote;
+    //   });
+    // });
   }
 
   void _updateQuote() {
     setState(() {
-      repository.getRandomQuote().then((quote) {
-        _quote = quote;
-      });
+      // repository.getRandomQuote().then((quote) {
+      //   _quote = quote;
+      // });
+      _quote = repository.getRandomLocalQuote();
     });
   }
 
@@ -57,23 +61,21 @@ class _MessiahsHandbookQuoteState extends State<MessiahsHandbookQuote> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            isLoading
-                ? new CircularProgressIndicator()
-                : new Padding(
-                    padding: new EdgeInsets.all(16.0),
-                    child: new GestureDetector(
-                      onLongPress: () {
-                        Share.share(_quote);
-                      },
-                      child: new Text(
-                        '$_quote',
-                        style: new TextStyle(
-                          color: Colors.black87,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
+            new Padding(
+              padding: new EdgeInsets.all(16.0),
+              child: new GestureDetector(
+                onLongPress: () {
+                  Share.share(_quote);
+                },
+                child: new Text(
+                  '$_quote',
+                  style: new TextStyle(
+                    color: Colors.black87,
+                    fontSize: 20.0,
                   ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
